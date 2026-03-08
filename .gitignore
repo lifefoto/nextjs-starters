@@ -1,4 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+CLAUDE.md
+/.claude
+/docs
+/.bkit
 
 # dependencies
 /node_modules
@@ -19,12 +23,25 @@
 
 # production
 /build
+/dist
+/.nuxt
+/.vuepress/dist
 
 # misc
 .DS_Store
+Thumbs.db
+desktop.ini
 *.pem
+/.vscode
+/.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # debug
+debug.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -39,3 +56,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 캐시
+.cache/
+.parcel-cache/
+.eslintcache
