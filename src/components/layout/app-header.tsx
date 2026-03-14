@@ -21,7 +21,6 @@ export function AppHeader() {
       >
         <Menu className="h-5 w-5" />
       </Button>
-      <Separator orientation="vertical" className="h-4" />
       <BreadcrumbNav />
       <div className="flex flex-1 items-center justify-end gap-2">
         <ThemeToggle />
