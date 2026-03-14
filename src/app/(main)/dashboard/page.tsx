@@ -1,5 +1,4 @@
 import { AlertCircle, DollarSign, FolderOpen, Users } from "lucide-react"
-import { PageHeader } from "@/components/shared/page-header"
 import { StatsCard } from "@/features/dashboard/components/stats-card"
 import { ChartCard } from "@/features/dashboard/components/chart-card"
 
@@ -36,8 +35,6 @@ const userGrowth = [
 export default function DashboardPage() {
   return (
     <div>
-      <PageHeader title="대시보드" description="오늘의 현황을 확인하세요" />
-
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
         <StatsCard
           title="총 사용자"

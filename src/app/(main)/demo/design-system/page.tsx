@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { toast } from "sonner"
-import { PageHeader } from "@/components/shared/page-header"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -69,11 +68,6 @@ export default function DesignSystemPage() {
 
   return (
     <div>
-      <PageHeader
-        title="디자인 시스템"
-        description="ShadcnUI 컴포넌트 쇼케이스"
-      />
-
       <div className="space-y-10">
         {/* Buttons */}
         <Section title="Buttons - Variants">

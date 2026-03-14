@@ -1,10 +1,10 @@
-import { PageHeader } from "@/components/shared/page-header"
+import { SearchFilterBar } from "@/components/shared/search-filter-bar"
 import { UnderConstruction } from "@/components/shared/under-construction"
 
 export default function UserGroupPage() {
   return (
     <div>
-      <PageHeader title="사용자 그룹" description="시스템 관리 > 사용자 그룹" />
+      <SearchFilterBar />
       <UnderConstruction />
     </div>
   )
