@@ -15,6 +15,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -29,6 +30,22 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
 import { AlertCircle, Info } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
@@ -65,6 +82,9 @@ const chartData = [
 
 export default function DesignSystemPage() {
   const [notifyChecked, setNotifyChecked] = useState(true)
+  const [bookmarkChecked, setBookmarkChecked] = useState(true)
+  const [urlsChecked, setUrlsChecked] = useState(false)
+  const [selectedPerson, setSelectedPerson] = useState("chulsoo")
 
   return (
     <div>
@@ -212,26 +232,26 @@ export default function DesignSystemPage() {
         {/* Tooltip */}
         <Section title="Tooltip">
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="sm">위쪽</Button>
+            <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+              위쪽
             </TooltipTrigger>
             <TooltipContent side="top">위쪽 툴팁</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="sm">아래쪽</Button>
+            <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+              아래쪽
             </TooltipTrigger>
             <TooltipContent side="bottom">아래쪽 툴팁</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="sm">왼쪽</Button>
+            <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+              왼쪽
             </TooltipTrigger>
             <TooltipContent side="left">왼쪽 툴팁</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="sm">오른쪽</Button>
+            <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+              오른쪽
             </TooltipTrigger>
             <TooltipContent side="right">오른쪽 툴팁</TooltipContent>
           </Tooltip>
@@ -294,8 +314,8 @@ export default function DesignSystemPage() {
         {/* Sheet */}
         <Section title="Sheet">
           <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline">왼쪽 패널 열기</Button>
+            <SheetTrigger render={<Button variant="outline" />}>
+              왼쪽 패널 열기
             </SheetTrigger>
             <SheetContent side="left">
               <SheetHeader>
@@ -307,8 +327,8 @@ export default function DesignSystemPage() {
           </Sheet>
 
           <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline">오른쪽 패널 열기</Button>
+            <SheetTrigger render={<Button variant="outline" />}>
+              오른쪽 패널 열기
             </SheetTrigger>
             <SheetContent side="right">
               <SheetHeader>
@@ -323,15 +343,16 @@ export default function DesignSystemPage() {
         {/* Dropdown Menu */}
         <Section title="Dropdown Menu">
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">메뉴 열기</Button>
+            <DropdownMenuTrigger render={<Button variant="outline" />}>
+              메뉴 열기
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-48">
-              <DropdownMenuLabel>내 계정</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>프로필</DropdownMenuItem>
-              <DropdownMenuItem>설정</DropdownMenuItem>
-              <DropdownMenuItem disabled>비활성 항목</DropdownMenuItem>
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>내 계정</DropdownMenuLabel>
+                <DropdownMenuItem>프로필</DropdownMenuItem>
+                <DropdownMenuItem>설정</DropdownMenuItem>
+                <DropdownMenuItem disabled>비활성 항목</DropdownMenuItem>
+              </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem checked={notifyChecked} onCheckedChange={setNotifyChecked}>
                 알림 받기
@@ -341,6 +362,69 @@ export default function DesignSystemPage() {
             </DropdownMenuContent>
           </DropdownMenu>
         </Section>
+
+        {/* Context Menu */}
+        <section>
+          <h2 className="text-lg font-semibold mb-4 pb-2 border-b">Context Menu</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            우클릭으로 열리는 컨텍스트 메뉴입니다. 아래 영역을 우클릭하세요.
+          </p>
+          <ContextMenu>
+            <ContextMenuTrigger>
+              <div className="flex min-h-32 w-full items-center justify-center rounded-lg border border-dashed border-muted-foreground/30 text-sm text-muted-foreground">
+                이 영역을 우클릭하세요
+              </div>
+            </ContextMenuTrigger>
+            <ContextMenuContent className="w-56">
+              <ContextMenuGroup>
+                <ContextMenuLabel>편집</ContextMenuLabel>
+                <ContextMenuItem>
+                  뒤로 가기
+                  <ContextMenuShortcut>Ctrl+[</ContextMenuShortcut>
+                </ContextMenuItem>
+                <ContextMenuItem disabled>
+                  앞으로 가기
+                  <ContextMenuShortcut>Ctrl+]</ContextMenuShortcut>
+                </ContextMenuItem>
+                <ContextMenuItem>
+                  새로고침
+                  <ContextMenuShortcut>Ctrl+R</ContextMenuShortcut>
+                </ContextMenuItem>
+                <ContextMenuSub>
+                  <ContextMenuSubTrigger>더보기</ContextMenuSubTrigger>
+                  <ContextMenuSubContent>
+                    <ContextMenuItem>페이지 소스 보기</ContextMenuItem>
+                    <ContextMenuItem>개발자 도구</ContextMenuItem>
+                    <ContextMenuItem>콘솔</ContextMenuItem>
+                  </ContextMenuSubContent>
+                </ContextMenuSub>
+              </ContextMenuGroup>
+              <ContextMenuSeparator />
+              <ContextMenuGroup>
+                <ContextMenuCheckboxItem checked={bookmarkChecked} onCheckedChange={setBookmarkChecked}>
+                  북마크 표시
+                </ContextMenuCheckboxItem>
+                <ContextMenuCheckboxItem checked={urlsChecked} onCheckedChange={setUrlsChecked}>
+                  전체 URL 표시
+                </ContextMenuCheckboxItem>
+              </ContextMenuGroup>
+              <ContextMenuSeparator />
+              <ContextMenuGroup>
+                <ContextMenuLabel inset>담당자</ContextMenuLabel>
+                <ContextMenuRadioGroup value={selectedPerson} onValueChange={setSelectedPerson}>
+                  <ContextMenuRadioItem value="chulsoo">김철수</ContextMenuRadioItem>
+                  <ContextMenuRadioItem value="younghee">이영희</ContextMenuRadioItem>
+                  <ContextMenuRadioItem value="minsoo">박민수</ContextMenuRadioItem>
+                </ContextMenuRadioGroup>
+              </ContextMenuGroup>
+              <ContextMenuSeparator />
+              <ContextMenuItem variant="destructive">
+                삭제
+                <ContextMenuShortcut>Ctrl+D</ContextMenuShortcut>
+              </ContextMenuItem>
+            </ContextMenuContent>
+          </ContextMenu>
+        </section>
 
         {/* Breadcrumb */}
         <section>

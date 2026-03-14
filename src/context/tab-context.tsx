@@ -19,6 +19,12 @@ export interface TabContextValue {
   openTab: (tab: Tab) => void
   closeTab: (id: string) => void
   setActiveTabId: (id: string) => void
+  /** 지정 탭을 제외한 모든 탭 닫기 */
+  closeOtherTabs: (id: string) => void
+  /** 지정 탭 기준 왼쪽 탭 전부 닫기 */
+  closeLeftTabs: (id: string) => void
+  /** 지정 탭 기준 오른쪽 탭 전부 닫기 */
+  closeRightTabs: (id: string) => void
 }
 
 /** Sidebar 열림/닫힘 상태 */
@@ -56,8 +62,35 @@ export function TabProvider({ children }: { children: React.ReactNode }) {
     })
   }, [activeTabId])
 
+  const closeOtherTabs = useCallback((id: string) => {
+    setTabs(prev => prev.filter(t => t.id === id))
+    setActiveTabId(id)
+  }, [])
+
+  const closeLeftTabs = useCallback((id: string) => {
+    setTabs(prev => {
+      const idx = prev.findIndex(t => t.id === id)
+      const next = prev.filter((_, i) => i >= idx)
+      if (activeTabId && !next.find(t => t.id === activeTabId)) {
+        setActiveTabId(id)
+      }
+      return next
+    })
+  }, [activeTabId])
+
+  const closeRightTabs = useCallback((id: string) => {
+    setTabs(prev => {
+      const idx = prev.findIndex(t => t.id === id)
+      const next = prev.filter((_, i) => i <= idx)
+      if (activeTabId && !next.find(t => t.id === activeTabId)) {
+        setActiveTabId(id)
+      }
+      return next
+    })
+  }, [activeTabId])
+
   return (
-    <TabContext.Provider value={{ tabs, activeTabId, openTab, closeTab, setActiveTabId }}>
+    <TabContext.Provider value={{ tabs, activeTabId, openTab, closeTab, setActiveTabId, closeOtherTabs, closeLeftTabs, closeRightTabs }}>
       {children}
     </TabContext.Provider>
   )
