@@ -19,6 +19,9 @@ export interface TabContextValue {
   openTab: (tab: Tab) => void
   closeTab: (id: string) => void
   setActiveTabId: (id: string) => void
+  closeOtherTabs: (id: string) => void
+  closeLeftTabs: (id: string) => void
+  closeRightTabs: (id: string) => void
 }
 
 /** Sidebar 열림/닫힘 상태 */
@@ -56,8 +59,41 @@ export function TabProvider({ children }: { children: React.ReactNode }) {
     })
   }, [activeTabId])
 
+  /** 지정 탭만 남기고 나머지 모두 제거 */
+  const closeOtherTabs = useCallback((id: string) => {
+    setTabs(prev => prev.filter(t => t.id === id))
+    setActiveTabId(id)
+  }, [])
+
+  /** 지정 탭 기준 왼쪽 탭 모두 제거 */
+  const closeLeftTabs = useCallback((id: string) => {
+    setTabs(prev => {
+      const idx = prev.findIndex(t => t.id === id)
+      const next = prev.slice(idx)
+      if (activeTabId && !next.find(t => t.id === activeTabId)) {
+        setActiveTabId(id)
+      }
+      return next
+    })
+  }, [activeTabId])
+
+  /** 지정 탭 기준 오른쪽 탭 모두 제거 */
+  const closeRightTabs = useCallback((id: string) => {
+    setTabs(prev => {
+      const idx = prev.findIndex(t => t.id === id)
+      const next = prev.slice(0, idx + 1)
+      if (activeTabId && !next.find(t => t.id === activeTabId)) {
+        setActiveTabId(id)
+      }
+      return next
+    })
+  }, [activeTabId])
+
   return (
-    <TabContext.Provider value={{ tabs, activeTabId, openTab, closeTab, setActiveTabId }}>
+    <TabContext.Provider value={{
+      tabs, activeTabId, openTab, closeTab, setActiveTabId,
+      closeOtherTabs, closeLeftTabs, closeRightTabs
+    }}>
       {children}
     </TabContext.Provider>
   )
