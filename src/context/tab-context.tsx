@@ -19,8 +19,11 @@ export interface TabContextValue {
   openTab: (tab: Tab) => void
   closeTab: (id: string) => void
   setActiveTabId: (id: string) => void
+  /** 지정 탭을 제외한 모든 탭 닫기 */
   closeOtherTabs: (id: string) => void
+  /** 지정 탭 기준 왼쪽 탭 전부 닫기 */
   closeLeftTabs: (id: string) => void
+  /** 지정 탭 기준 오른쪽 탭 전부 닫기 */
   closeRightTabs: (id: string) => void
 }
 

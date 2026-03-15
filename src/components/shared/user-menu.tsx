@@ -13,8 +13,7 @@ import { LogOut, Settings, User } from "lucide-react"
 export function UserMenu() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent transition-colors">
+      <DropdownMenuTrigger render={<button className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent transition-colors" />}>
           <Avatar className="h-8 w-8 rounded-lg">
             <AvatarFallback className="rounded-lg">U</AvatarFallback>
           </Avatar>
@@ -22,7 +21,6 @@ export function UserMenu() {
             <span className="truncate font-semibold">사용자 이름</span>
             <span className="truncate text-xs text-muted-foreground">user@example.com</span>
           </div>
-        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         className="w-56 rounded-lg"

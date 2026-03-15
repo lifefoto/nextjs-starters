@@ -14,12 +14,12 @@ import {
 
 export function TabBar() {
   const {
-    tabs, activeTabId, setActiveTabId,
-    closeTab, closeOtherTabs, closeLeftTabs, closeRightTabs
+    tabs, activeTabId, setActiveTabId, closeTab,
+    closeOtherTabs, closeLeftTabs, closeRightTabs,
   } = useTab()
   const router = useRouter()
 
-  /** 활성 탭 변경 시 라우터 동기화 (일괄 닫기 포함) */
+  // 일괄 닫기 후 활성 탭 URL로 라우터 동기화
   useEffect(() => {
     if (!activeTabId) return
     const activeTab = tabs.find(t => t.id === activeTabId)
@@ -30,10 +30,12 @@ export function TabBar() {
 
   if (tabs.length === 0) return null
 
-  function handleTabClick(id: string) {
+  /** 탭 좌클릭 전환 */
+  function handleTabClick(id: string, url: string) {
     setActiveTabId(id)
   }
 
+  /** X 버튼 탭 닫기 */
   function handleTabClose(e: React.MouseEvent, id: string) {
     e.stopPropagation()
     closeTab(id)
@@ -43,28 +45,30 @@ export function TabBar() {
     <div className="flex border-b overflow-x-auto flex-shrink-0" style={{ paddingTop: "2px" }}>
       {tabs.map((tab, index) => (
         <ContextMenu key={tab.id}>
-          <ContextMenuTrigger asChild>
-            <button
-              onClick={() => handleTabClick(tab.id)}
-              className={[
-                "flex items-center gap-1 px-3 py-1.5 text-sm border-r flex-shrink-0 transition-colors",
-                tab.id === activeTabId
-                  ? "bg-background text-foreground font-medium border-b-2 border-b-primary"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80",
-              ].join(" ")}
+          <ContextMenuTrigger
+            render={
+              <button
+                onClick={() => handleTabClick(tab.id, tab.url)}
+                className={[
+                  "flex items-center gap-1 px-3 py-1.5 text-sm border-r flex-shrink-0 transition-colors",
+                  tab.id === activeTabId
+                    ? "bg-background text-foreground font-medium border-b-2 border-b-primary"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80",
+                ].join(" ")}
+              />
+            }
+          >
+            <span>{tab.label}</span>
+            <span
+              role="button"
+              tabIndex={0}
+              onClick={(e) => handleTabClose(e, tab.id)}
+              onKeyDown={(e) => { if (e.key === "Enter") handleTabClose(e as unknown as React.MouseEvent, tab.id) }}
+              className="ml-1 rounded-sm hover:bg-foreground/20 p-0.5"
+              aria-label={`${tab.label} 탭 닫기`}
             >
-              <span>{tab.label}</span>
-              <span
-                role="button"
-                tabIndex={0}
-                onClick={(e) => handleTabClose(e, tab.id)}
-                onKeyDown={(e) => { if (e.key === "Enter") handleTabClose(e as unknown as React.MouseEvent, tab.id) }}
-                className="ml-1 rounded-sm hover:bg-foreground/20 p-0.5"
-                aria-label={`${tab.label} 탭 닫기`}
-              >
-                <X className="h-3 w-3" />
-              </span>
-            </button>
+              <X className="h-3 w-3" />
+            </span>
           </ContextMenuTrigger>
           <ContextMenuContent>
             <ContextMenuItem onClick={() => closeTab(tab.id)}>
